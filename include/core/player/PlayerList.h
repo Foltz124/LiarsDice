@@ -9,5 +9,5 @@ typedef struct PlayerList {
 
 int push(PlayerList* list, Player player);
 PlayerList* buildPlayerList();
-void deletePlayerList(PlayerList* list);
+void deletePlayerList(PlayerList** list);
 

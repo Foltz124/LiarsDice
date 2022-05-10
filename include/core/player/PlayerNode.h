@@ -2,10 +2,10 @@
 #include "Player.h"
 
 typedef struct PlayerNode {
-    Player val;
+    Player value;
     struct PlayerNode* next;
 } PlayerNode;
 
 PlayerNode* buildPlayerNode(Player player);
-void deletePlayerNode(PlayerNode* playerNode);
+void deletePlayerNode(PlayerNode** playerNode);
 

@@ -5,12 +5,13 @@
 PlayerNode* buildPlayerNode(Player player) {
     PlayerNode* playerNode = malloc(sizeof(PlayerNode));
     if(playerNode) {
-        playerNode->val = player;
+        playerNode->value = player;
         playerNode->next = NULL;
     }
     return playerNode;
 }
 
-void deletePlayerNode(PlayerNode* playerNode) {
-    free(playerNode);
+void deletePlayerNode(PlayerNode** playerNode) {
+    free(*playerNode);
+    *playerNode = NULL;
 }

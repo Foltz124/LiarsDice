@@ -29,13 +29,14 @@ PlayerList* buildPlayerList() {
     return list;
 }
 
-void deletePlayerList(PlayerList* list) {
-    PlayerNode* current = list->head;
+void deletePlayerList(PlayerList** list) {
+    PlayerNode* current = (*list)->head;
     while (current) {
         PlayerNode* temp = current->next;
-        deletePlayerNode(current);
+        deletePlayerNode(&current);
         current = temp;
     }
-    free(list);
+    free(*list);
+    *list = NULL;
 }
 
