@@ -9,7 +9,7 @@ set(BUILD_TESTS ON)
 
 # Add project directories
 add_subdirectory(include)
-add_subdirectory(src)
+add_subdirectory(lib)
 add_subdirectory(bin)
 
 # Add test directory if building tests
