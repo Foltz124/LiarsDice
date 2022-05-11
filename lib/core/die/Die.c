@@ -6,11 +6,11 @@
  * Returns a number between [min, max).
  * May experience some mod bias when reaching RAND_MAX.
  */
-unsigned int getRandomNumber(unsigned int min, unsigned int max) {
+uint8_t getRandomNumber(uint8_t min, uint8_t max) {
     return rand() % (max + 1 - min) + min;
 }
 
-Die* buildDie(unsigned int maxValue) {
+Die* buildDie(uint8_t maxValue) {
     Die* die = malloc(sizeof(Die)); 
     if(die) {
         die->maxValue = maxValue;
