@@ -1,14 +1,15 @@
 #include <stdlib.h>
 
-#include "PlayerList.h"
+#include "DieList.h"
 
-int pushPlayer(PlayerList* list, Player player) {
+int pushDie(DieList* list, Die die) {
     int result = 1;
-    PlayerNode* node = buildPlayerNode(player);
-    if (node) {
+    DieNode* node = buildDieNode(die);
+    if(node) {
         result = 0;
-        if (list->head) {
+        if(list->head) {
             list->tail->next = node;
+            node->previous = list->tail;
             list->tail = node;
         } else {
             list->head = node;
@@ -19,8 +20,8 @@ int pushPlayer(PlayerList* list, Player player) {
     return result;
 }
 
-PlayerList* buildPlayerList() {
-    PlayerList* list = malloc(sizeof(PlayerList));
+DieList* buildDieList() {
+    DieList* list = malloc(sizeof(DieList));
     if(list) {
         list->head = NULL;
         list->tail = NULL;
@@ -29,14 +30,13 @@ PlayerList* buildPlayerList() {
     return list;
 }
 
-void deletePlayerList(PlayerList** list) {
-    PlayerNode* current = (*list)->head;
-    while (current) {
-        PlayerNode* temp = current->next;
-        deletePlayerNode(&current);
+void deleteDieList(DieList** list) {
+    DieNode* current = (*list)->head;
+    while(current) {
+        DieNode* temp = current->next;
+        deleteDieNode(&current);
         current = temp;
     }
     free(*list);
     *list = NULL;
 }
-

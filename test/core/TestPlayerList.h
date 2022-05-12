@@ -27,7 +27,7 @@ START_TEST(pushPlayerList) {
     int playerTwoTokens = 10;
     PlayerList* list = buildPlayerList();
     ck_assert_ptr_nonnull(list);
-    push(list, buildPlayerTest(playerOne, playerOneTokens));
+    pushPlayer(list, buildPlayerTest(playerOne, playerOneTokens));
     // Check that head/tail + size are handled correctly on first push
     ck_assert_int_eq(list->size, 1);
     ck_assert(list->head == list->tail);
@@ -37,7 +37,7 @@ START_TEST(pushPlayerList) {
     ck_assert_int_eq(list->head->value.tokens, playerOneTokens);
 
     // Check that head/tail + size are handled on subsequent pushes
-    push(list, buildPlayerTest(playerTwo, playerTwoTokens));
+    pushPlayer(list, buildPlayerTest(playerTwo, playerTwoTokens));
     ck_assert_int_eq(list->size, 2);
     ck_assert(list->head != list->tail);
     ck_assert_str_eq(list->head->value.name, playerOne);

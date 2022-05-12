@@ -7,7 +7,7 @@ typedef struct PlayerList {
     int size;
 } PlayerList;
 
-int push(PlayerList* list, Player player);
+int pushPlayer(PlayerList* list, Player player);
 PlayerList* buildPlayerList();
 void deletePlayerList(PlayerList** list);
 
