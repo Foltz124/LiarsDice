@@ -82,7 +82,7 @@ START_TEST(checkFiveOfAKind) {
 }
 END_TEST
 
-Suite* pokerSuite(void) {
+Suite* pokerUtilsSuite(void) {
     Suite* suite;
     TCase* testCase;
     suite = suite_create("PokerUtils");
