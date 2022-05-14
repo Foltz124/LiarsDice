@@ -10,12 +10,19 @@ uint8_t getRandomNumber(uint8_t min, uint8_t max) {
     return rand() % (max + 1 - min) + min;
 }
 
-Die* buildDie(uint8_t maxValue) {
+Die* buildDiePointer(uint8_t maxValue) {
     Die* die = malloc(sizeof(Die)); 
     if(die) {
         die->maxValue = maxValue;
         die->currentValue = 1;
     }
+    return die;
+}
+
+Die buildDie(uint8_t maxValue) {
+    Die die;
+    die.maxValue = maxValue;
+    die.currentValue = 1;
     return die;
 }
 

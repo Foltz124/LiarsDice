@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "TestPokerUtils.h"
+#include "TestHand.h"
 
 int main(void) {
     int numberFailed = 0;
@@ -10,6 +11,7 @@ int main(void) {
 
     suiteRunner = srunner_create(mainSuite);
     srunner_add_suite(suiteRunner, pokerUtilsSuite());
+    srunner_add_suite(suiteRunner, handSuite());
 
     srunner_run_all(suiteRunner, CK_NORMAL);
     numberFailed = srunner_ntests_failed(suiteRunner);

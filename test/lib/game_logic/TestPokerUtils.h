@@ -1,84 +1,92 @@
 #include <check.h>
 
+#include "Hand.h"
 #include "PokerUtils.h"
 
+Hand* hand;
+
+void setup(void) { hand = buildHand(6); }
+
+void teardown(void) {
+    deleteHand(hand);
+    hand = NULL;
+}
+
+void populateHand(Hand* hand, uint8_t* handArray) {
+    DieListIterator it = beginDieIt(hand->dice);
+    for (int index = 0; index < sizeDieList(hand->dice); index++) {
+        Die* current = getDie(it);
+        current->currentValue = handArray[index];
+        it = nextDieIt(it);
+    }
+}
+
 START_TEST(checkHighestSingle) {
-    int size = 6;
-    uint8_t hand[] = {1, 1, 1, 0, 1, 1};
-    ck_assert(determineHand(hand, 6) == HighestSingle);
-    uint8_t handTwo[] = {1, 1, 1, 1, 0, 1};
-    ck_assert(determineHand(handTwo, 6) == HighestSingle);
-    uint8_t handThree[] = {1, 0, 1, 1, 1, 1};
-    ck_assert(determineHand(handThree, 6) == HighestSingle);
+    uint8_t hands[3][5] = {{1, 2, 4, 5, 6}, {1, 3, 4, 5, 6}, {1, 2, 3, 5, 6}};
+    for (int index = 0; index < 3; index++) {
+        populateHand(hand, hands[index]);
+        ck_assert(determineHand(hand) == HighestSingle);
+    }
 }
 END_TEST
 
 START_TEST(checkOnePair) {
-    int size = 6;
-    uint8_t hand[] = {0, 2, 1, 1, 1, 0};
-    ck_assert(determineHand(hand, 6) == OnePair);
-    uint8_t handTwo[] = {2, 0, 1, 1, 1, 0};
-    ck_assert(determineHand(handTwo, 6) == OnePair);
-    uint8_t handThree[] = {0, 0, 1, 1, 2, 0};
-    ck_assert(determineHand(handThree, 6) == OnePair);
+    uint8_t hands[3][5] = {{2, 2, 4, 5, 6}, {1, 6, 4, 5, 6}, {1, 2, 5, 5, 6}};
+    for (int index = 0; index < 3; index++) {
+        populateHand(hand, hands[index]);
+        ck_assert(determineHand(hand) == OnePair);
+    }
 }
+
 END_TEST
 
 START_TEST(checkTwoPair) {
-    int size = 6;
-    uint8_t hand[] = {2, 2, 0, 0, 1, 0};
-    ck_assert(determineHand(hand, 6) == TwoPair);
-    uint8_t handTwo[] = {0, 0, 2, 1, 2, 0};
-    ck_assert(determineHand(handTwo, 6) == TwoPair);
-    uint8_t handThree[] = {0, 2, 0, 2, 0, 0};
-    ck_assert(determineHand(handThree, 6) == TwoPair);
+    uint8_t hands[3][5] = {{2, 2, 4, 6, 6}, {1, 6, 5, 5, 6}, {1, 2, 5, 5, 1}};
+    for (int index = 0; index < 3; index++) {
+        populateHand(hand, hands[index]);
+        ck_assert(determineHand(hand) == TwoPair);
+    }
 }
 END_TEST
 
 START_TEST(checkThreeOfAKind) {
-    int size = 6;
-    uint8_t hand[] = {3, 1, 0, 0, 1, 0};
-    ck_assert(determineHand(hand, 6) == ThreeOfAKind);
-    uint8_t handTwo[] = {1, 0, 0, 1, 0, 3};
-    ck_assert(determineHand(handTwo, 6) == ThreeOfAKind);
-    uint8_t handThree[] = {0, 1, 0, 3, 0, 1};
-    ck_assert(determineHand(handThree, 6) == ThreeOfAKind);
+    uint8_t hands[3][5] = {{1, 6, 4, 6, 6}, {1, 3, 5, 5, 5}, {1, 2, 1, 5, 1}};
+    for (int index = 0; index < 3; index++) {
+        populateHand(hand, hands[index]);
+        ck_assert(determineHand(hand) == ThreeOfAKind);
+    }
 }
 END_TEST
 
 START_TEST(checkLowStraight) {
-    int size = 6;
-    uint8_t hand[] = {1, 1, 1, 1, 1, 0};
-    ck_assert(determineHand(hand, 6) == LowStraight);
+    uint8_t hands[5] = {1, 2, 3, 4, 5};
+    populateHand(hand, hands);
+    ck_assert(determineHand(hand) == LowStraight);
 }
 END_TEST
 
 START_TEST(checkHighStraight) {
-    int size = 6;
-    uint8_t hand[] = {0, 1, 1, 1, 1, 1};
-    ck_assert(determineHand(hand, 6) == HighStraight);
+    uint8_t hands[5] = {2, 3, 4, 5, 6};
+    populateHand(hand, hands);
+    ck_assert(determineHand(hand) == HighStraight);
 }
 END_TEST
 
 START_TEST(checkFourOfAKind) {
-    int size = 6;
-    uint8_t hand[] = {4, 0, 0, 0, 1, 0};
-    ck_assert(determineHand(hand, 6) == FourOfAKind);
-    uint8_t handTwo[] = {1, 0, 0, 0, 4, 0};
-    ck_assert(determineHand(handTwo, 6) == FourOfAKind);
-    uint8_t handThree[] = {0, 1, 4, 0, 0, 0};
-    ck_assert(determineHand(handThree, 6) == FourOfAKind);
+    uint8_t hands[3][5] = {{4, 4, 4, 4, 6}, {1, 3, 1, 1, 1}, {1, 2, 2, 2, 2}};
+    for (int index = 0; index < 3; index++) {
+        populateHand(hand, hands[index]);
+        ck_assert(determineHand(hand) == FourOfAKind);
+    }
 }
 END_TEST
 
 START_TEST(checkFiveOfAKind) {
-    int size = 6;
-    uint8_t hand[] = {5, 0, 0, 0, 0, 0};
-    ck_assert(determineHand(hand, 6) == FiveOfAKind);
-    uint8_t handTwo[] = {0, 0, 0, 0, 0, 5};
-    ck_assert(determineHand(handTwo, 6) == FiveOfAKind);
-    uint8_t handThree[] = {0, 0, 0, 5, 0, 0};
-    ck_assert(determineHand(handThree, 6) == FiveOfAKind);
+    uint8_t hands[3][5] = {{6, 6, 6, 6, 6}, {1, 1, 1, 1, 1}, {3, 3, 3, 3, 3}};
+    for (int index = 0; index < 3; index++) {
+        populateHand(hand, hands[index]);
+        ck_assert(determineHand(hand) == FiveOfAKind);
+    }
 }
 END_TEST
 
@@ -87,6 +95,7 @@ Suite* pokerUtilsSuite(void) {
     TCase* testCase;
     suite = suite_create("PokerUtils");
     testCase = tcase_create("Core");
+    tcase_add_checked_fixture(testCase, setup, teardown);
     tcase_add_test(testCase, checkHighestSingle);
     tcase_add_test(testCase, checkOnePair);
     tcase_add_test(testCase, checkTwoPair);

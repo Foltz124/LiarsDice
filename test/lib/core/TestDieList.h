@@ -31,16 +31,18 @@ START_TEST(pushDieListOneElement) {
     ck_assert_int_eq(sizeDieList(list), 1);
     DieListIterator it = beginDieIt(list);
     ck_assert_ptr_nonnull(it);
-    Die value = getDie(it);
-    ck_assert_int_eq(value.maxValue, maxValue);
-    ck_assert_int_eq(value.currentValue, currentValue);
+    Die* value = getDie(it);
+    ck_assert_ptr_nonnull(value);
+    ck_assert_int_eq(value->maxValue, maxValue);
+    ck_assert_int_eq(value->currentValue, currentValue);
 
     // Check end iterator
     it = endDieIt(list);
     ck_assert_ptr_nonnull(it);
     value = getDie(it);
-    ck_assert_int_eq(value.maxValue, maxValue);
-    ck_assert_int_eq(value.currentValue, currentValue);
+    ck_assert_ptr_nonnull(value);
+    ck_assert_int_eq(value->maxValue, maxValue);
+    ck_assert_int_eq(value->currentValue, currentValue);
 }
 END_TEST
 
@@ -59,9 +61,10 @@ START_TEST(pushDieListTwoElement) {
     ck_assert_int_eq(sizeDieList(list), 2);
     DieListIterator it = beginDieIt(list);
     ck_assert_ptr_nonnull(it);
-    Die value = getDie(it);
-    ck_assert_int_eq(value.maxValue, maxValueOne);
-    ck_assert_int_eq(value.currentValue, currentValueOne);
+    Die* value = getDie(it);
+    ck_assert_ptr_nonnull(value);
+    ck_assert_int_eq(value->maxValue, maxValueOne);
+    ck_assert_int_eq(value->currentValue, currentValueOne);
 
     ck_assert(nextDieIt(it) == endDieIt(list));
 
@@ -69,8 +72,9 @@ START_TEST(pushDieListTwoElement) {
     it = endDieIt(list);
     ck_assert_ptr_nonnull(it);
     value = getDie(it);
-    ck_assert_int_eq(value.maxValue, maxValueTwo);
-    ck_assert_int_eq(value.currentValue, currentValueTwo);
+    ck_assert_ptr_nonnull(value);
+    ck_assert_int_eq(value->maxValue, maxValueTwo);
+    ck_assert_int_eq(value->currentValue, currentValueTwo);
 
     ck_assert(previousDieIt(it) == beginDieIt(list));
 }
@@ -91,18 +95,18 @@ START_TEST(loopThroughIterator) {
     int count = 0;
     DieListIterator it = NULL;
     for (it = beginDieIt(list); hasNextDieIt(it); it = nextDieIt(it)) {
-        Die current = getDie(it);
-        ck_assert_int_eq(current.maxValue, maxValue);
-        ck_assert_int_eq(current.currentValue, currentValue);
+        Die* current = getDie(it);
+        ck_assert_int_eq(current->maxValue, maxValue);
+        ck_assert_int_eq(current->currentValue, currentValue);
         count++;
     }
     ck_assert_int_eq(count, 3);
 
     count = 0;
     for (it = endDieIt(list); hasPreviousDieIt(it); it = previousDieIt(it)) {
-        Die current = getDie(it);
-        ck_assert_int_eq(current.maxValue, maxValue);
-        ck_assert_int_eq(current.currentValue, currentValue);
+        Die* current = getDie(it);
+        ck_assert_int_eq(current->maxValue, maxValue);
+        ck_assert_int_eq(current->currentValue, currentValue);
         count++;
     }
     ck_assert_int_eq(count, 3);
