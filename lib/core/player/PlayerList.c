@@ -88,7 +88,7 @@ static PlayerNode* castIteratorToNode(PlayerListIterator it) {
 }
 
 bool hasNextPlayerIt(PlayerListIterator it) {
-    return castIteratorToNode(it) == NULL;
+    return castIteratorToNode(it) != NULL;
 }
 
 PlayerListIterator nextPlayerIt(PlayerListIterator it) {

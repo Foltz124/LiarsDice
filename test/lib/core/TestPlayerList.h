@@ -1,5 +1,4 @@
 #include <check.h>
-#include <stdio.h>
 
 #include "PlayerList.h"
 
@@ -66,7 +65,7 @@ START_TEST(LoopThroughIterator) {
 
     int count = 0;
     PlayerListIterator it = NULL;
-    for (it = beginPlayerIt(list); hasNextPlayerIt(it); nextPlayerIt(it)) {
+    for (it = beginPlayerIt(list); hasNextPlayerIt(it); it = nextPlayerIt(it)) {
         Player current = getPlayer(it);
         ck_assert_str_eq(current.name, name);
         ck_assert_int_eq(current.tokens, tokens);
