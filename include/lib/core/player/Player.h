@@ -1,5 +1,4 @@
 #pragma once
-
 #include <stdint.h>
 
 typedef struct Player {
@@ -8,4 +7,5 @@ typedef struct Player {
 } Player;
 
 Player* buildPlayer(char* name, uint8_t tokens);
-void deletePlayer(Player** player);
+void deletePlayer(Player* player);
+

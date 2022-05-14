@@ -2,41 +2,130 @@
 
 #include "DieList.h"
 
-int pushDie(DieList* list, Die die) {
-    int result = 1;
-    DieNode* node = buildDieNode(die);
+typedef struct DieNode {
+    Die value;
+    struct DieNode* next;
+    struct DieNode* previous;
+} DieNode;
+
+DieNode* buildDieNode(Die die) {
+    DieNode* node = malloc(sizeof(DieNode));
     if(node) {
-        result = 0;
-        if(list->head) {
-            list->tail->next = node;
-            node->previous = list->tail;
-            list->tail = node;
-        } else {
-            list->head = node;
-            list->tail = node;
-        }
-        list->size += 1;
+        node->value = die;
+        node->next = NULL;
+        node->previous = NULL;
     }
-    return result;
+    return node;
 }
 
-DieList* buildDieList() {
-    DieList* list = malloc(sizeof(DieList));
+void deleteDieNode(DieNode* node) {
+    free(node);
+}
+
+typedef struct DieListInstance {
+    DieNode* head;
+    DieNode* tail;
+    size_t size;
+} DieListInstance;
+
+DieList buildDieList() {
+    DieListInstance* list = malloc(sizeof(DieListInstance));
     if(list) {
         list->head = NULL;
         list->tail = NULL;
         list->size = 0;
     }
-    return list;
+    return (DieList*) list;
 }
 
-void deleteDieList(DieList** list) {
-    DieNode* current = (*list)->head;
-    while(current) {
-        DieNode* temp = current->next;
-        deleteDieNode(&current);
-        current = temp;
-    }
-    free(*list);
-    *list = NULL;
+static DieListInstance* castListToInstance(DieList list) {
+    return (DieListInstance*) (list);
 }
+
+void pushDie(DieList list, Die die) {
+    DieListInstance* listInternal = (DieListInstance*) (list);
+    DieNode* node = buildDieNode(die);
+    if(node) {
+        if(listInternal->head) {
+            listInternal->tail->next = node;
+            node->previous = listInternal->tail;
+            listInternal->tail = node;
+        } else {
+            listInternal->head = node;
+            listInternal->tail = node;
+        }
+        listInternal->size += 1;
+    }
+}
+
+void deleteDieList(DieList* list) {
+    DieListInstance* listInternal = (DieListInstance*) (list);
+    if(listInternal) {
+        DieNode* current = listInternal->head;
+        while(current) {
+            DieNode* temp = current->next;
+            deleteDieNode(current);
+            current = temp;
+        }
+        free(list);
+    }
+}
+
+size_t sizeDieList(DieList list) {
+    return castListToInstance(list)->size;
+}
+
+DieListIterator beginDieIt(DieList list) {
+    DieNode* head = NULL;
+    DieListInstance* listInternal = castListToInstance(list);
+    if(listInternal) {
+        head = listInternal->head;
+    }
+    return (DieListIterator*) head;
+}
+
+DieListIterator endDieIt(DieList list) {
+    DieNode* tail = NULL;
+    DieListInstance* listInternal = castListToInstance(list);
+    if(listInternal) {
+        tail = listInternal->tail;
+    }
+    return (DieListIterator*) tail;
+}
+
+static DieNode* castIteratorToNode(DieListIterator it) {
+    return (DieNode*) it;
+}
+
+bool hasNextDieIt(DieListIterator it) {
+    return castIteratorToNode(it) != NULL;
+}
+
+DieListIterator nextDieIt(DieListIterator it) {
+    DieNode* node = (DieNode*) it;
+    if(node) {
+        node = node->next;
+    }
+    return (DieListIterator*) node;
+}
+
+bool hasPreviousDieIt(DieListIterator it) {
+    return castIteratorToNode(it) != NULL;
+}
+DieListIterator previousDieIt(DieListIterator it) {
+    DieNode* node = castIteratorToNode(it);
+    if(node) {
+        node = node->previous;
+    }
+    return (DieListIterator*) node;
+}
+
+Die getDie(DieListIterator it) {
+    Die die;
+    DieNode* node = castIteratorToNode(it);
+    if(node) {
+        die = node->value;
+    }
+    return die;
+}
+

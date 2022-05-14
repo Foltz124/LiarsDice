@@ -12,7 +12,7 @@ Player* buildPlayer(char* name, uint8_t tokens) {
     return player;
 }
 
-void deletePlayer(Player** player) {
-    free(*player);
-    *player = NULL;
+void deletePlayer(Player* player) {
+    free(player);
 }
+
