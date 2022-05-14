@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 2.8.12)
 
-project(bin)
-
-add_executable(${PROJECT_NAME} main.c)
-target_link_libraries(${PROJECT_NAME} include lib)
-
 project(${PLAYDATE_GAME_NAME} C ASM)
 if (TOOLCHAIN STREQUAL "armgcc")
 	add_executable(${PLAYDATE_GAME_DEVICE} ${SDK}/C_API/buildsupport/setup.c main.c)
