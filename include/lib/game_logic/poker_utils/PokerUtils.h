@@ -1,4 +1,5 @@
 #pragma once
+#include <stdint.h>
 
 typedef enum PokerHand {
     HighestSingle,
@@ -13,3 +14,4 @@ typedef enum PokerHand {
 } PokerHand;
 
 PokerHand determineHand(uint8_t* hand, uint8_t size);
+

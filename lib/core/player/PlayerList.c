@@ -1,42 +1,110 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "PlayerList.h"
+typedef struct PlayerNode {
+    Player value;
+    struct PlayerNode* next;
+} PlayerNode;
 
-int pushPlayer(PlayerList* list, Player player) {
-    int result = 1;
-    PlayerNode* node = buildPlayerNode(player);
-    if (node) {
-        result = 0;
-        if (list->head) {
-            list->tail->next = node;
-            list->tail = node;
-        } else {
-            list->head = node;
-            list->tail = node;
-        }
-        list->size += 1;
+PlayerNode* buildPlayerNode(Player player) {
+    PlayerNode* node = malloc(sizeof(PlayerNode));
+    if(node) {
+        node->value = player;
+        node->next = NULL;
     }
-    return result;
+    return node;
 }
 
-PlayerList* buildPlayerList() {
-    PlayerList* list = malloc(sizeof(PlayerList));
+void deletePlayerNode(PlayerNode* node) {
+   free(node); 
+}
+
+typedef struct PlayerListInstance {
+    PlayerNode* head;
+    PlayerNode* tail;
+    size_t size;
+} PlayerListInstance;
+
+PlayerList buildPlayerList() {
+    PlayerListInstance* list = malloc(sizeof(PlayerListInstance));
     if(list) {
         list->head = NULL;
         list->tail = NULL;
         list->size = 0;
     }
-    return list;
+    return (PlayerList*) list;
 }
 
-void deletePlayerList(PlayerList** list) {
-    PlayerNode* current = (*list)->head;
-    while (current) {
-        PlayerNode* temp = current->next;
-        deletePlayerNode(&current);
-        current = temp;
+// Helper method to ensure consitent casting in all methods
+static PlayerListInstance* castListToInstance(PlayerList list) {
+    return (PlayerListInstance*) list;
+}
+
+void pushPlayer(PlayerList list, Player player) {
+    PlayerListInstance* listInternal = castListToInstance(list);
+    PlayerNode* node = buildPlayerNode(player);
+    if (node) {
+        if (listInternal->head) {
+            listInternal->tail->next = node;
+            listInternal->tail = node;
+        } else {
+            listInternal->head = node;
+            listInternal->tail = node;
+        }
+        listInternal->size += 1;
     }
-    free(*list);
-    *list = NULL;
+}
+
+void deletePlayerList(PlayerList list) {
+    PlayerListInstance* listInternal = castListToInstance(list);
+    if(listInternal) {
+        PlayerNode* current = listInternal->head;
+        while (current) {
+            PlayerNode* temp = current->next;
+            deletePlayerNode(current);
+            current = temp;
+        }
+        free(list);
+    }
+}
+
+size_t sizePlayerList(PlayerList list) {
+    return castListToInstance(list)->size;
+}
+
+PlayerListIterator beginPlayerIt(PlayerList list) {
+    PlayerNode* head = NULL;
+    PlayerListInstance* listInternal = castListToInstance(list);
+    if(listInternal) {
+        head = listInternal->head;
+    }
+    return (PlayerListIterator*) head;
+}
+
+// Helper method to ensure consitent casting in all methods
+static PlayerNode* castIteratorToNode(PlayerListIterator it) {
+   return (PlayerNode*) it;
+}
+
+bool hasNextPlayerIt(PlayerListIterator it) {
+    return castIteratorToNode(it) != NULL;
+}
+
+PlayerListIterator nextPlayerIt(PlayerListIterator it) {
+    PlayerNode* node = castIteratorToNode(it);
+    if(node) {
+        node = node->next;
+    }
+    return (PlayerListIterator*) node;
+}
+
+Player getPlayer(PlayerListIterator it) {
+    Player player;
+    PlayerNode* node = castIteratorToNode(it);
+    if(node) {
+       player = node->value; 
+    }
+    return player;
 }
 

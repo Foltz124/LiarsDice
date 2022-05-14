@@ -1,12 +1,22 @@
 #pragma once
-#include "DieNode.h"
+#include <stdbool.h>
+#include <stdlib.h>
 
-typedef struct DieList {
-    DieNode* head;
-    DieNode* tail;
-    int size;
-} DieList;
+#include "Die.h"
 
-int pushDie(DieList* list, Die die);
-DieList* buildDieList();
-void deleteDieList(DieList** list);
+typedef void* DieList;
+typedef void* DieListIterator;
+
+DieList buildDieList();
+void deleteDieList(DieList*);
+void pushDie(DieList list, Die die);
+size_t sizeDieList(DieList list);
+
+DieListIterator beginDieIt(DieList list);
+DieListIterator endDieIt(DieList list);
+bool hasNextDieIt(DieListIterator it);
+bool hasPreviousDieIt(DieListIterator it);
+DieListIterator nextDieIt(DieListIterator it);
+DieListIterator previousDieIt(DieListIterator it);
+Die getDie(DieListIterator it);
+
