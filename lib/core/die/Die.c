@@ -19,11 +19,11 @@ Die* buildDie(uint8_t maxValue) {
     return die;
 }
 
-void deleteDie(Die** die) {
-    free(*die);
-    *die = NULL;
+void deleteDie(Die* die) {
+    free(die);
 }
 
 void rollDie(Die* die) {
     die->currentValue = getRandomNumber(1, die->maxValue);
 }
+

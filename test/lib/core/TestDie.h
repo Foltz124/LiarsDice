@@ -8,8 +8,7 @@ START_TEST(dieCreateDelete) {
     ck_assert_ptr_nonnull(die);
     ck_assert_int_eq(die->maxValue, maxValue);
     ck_assert_int_eq(die->currentValue, 1);
-    deleteDie(&die);
-    ck_assert_ptr_null(die);
+    deleteDie(die);
 }
 END_TEST
 
@@ -29,7 +28,7 @@ START_TEST(rollDieSpread) {
         ck_assert((buckets[index] <= (expected + epsilon)) &&
                   (buckets[index] >= (expected - epsilon)));
     }
-    deleteDie(&die);
+    deleteDie(die);
 }
 END_TEST
 

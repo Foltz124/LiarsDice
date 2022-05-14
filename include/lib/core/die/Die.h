@@ -1,5 +1,4 @@
 #pragma once
-
 #include <stdint.h>
 
 typedef struct Die {
@@ -8,6 +7,6 @@ typedef struct Die {
 } Die;
 
 Die* buildDie(uint8_t maxValue);
-void deleteDie(Die** die);
+void deleteDie(Die* die);
 void rollDie(Die* die);
 
