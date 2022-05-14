@@ -18,6 +18,7 @@ set(PLAYDATE_GAME_NAME_DEVICE liars_dice_device)
 add_subdirectory(include)
 add_subdirectory(lib)
 add_subdirectory(bin)
+add_subdirectory(images)
 
 # Add test directory if building tests
 if(BUILD_TESTS)
