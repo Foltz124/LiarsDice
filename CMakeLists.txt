@@ -4,6 +4,7 @@ project(LiarsDice)
 
 # Root Parameters
 set(CMAKE_C_STANDARD 11)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(SDK ${CMAKE_CURRENT_SOURCE_DIR}/playdate)
 set(BUILD_TESTS ON)
 
@@ -23,3 +24,4 @@ if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
 endif()
+
