@@ -12,7 +12,6 @@ set(PLAYER_PATH ${CORE_PATH}/player)
 set(DIE_PATH ${CORE_PATH}/die)
 set(POKER_PATH ${GAME_LOGIC_PATH}/poker_utils)
 
-message(STATUS ${PLAYER_PATH})
 # Currently only including headers so use interface
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE 
