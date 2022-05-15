@@ -4,7 +4,7 @@
 
 START_TEST(dieCreateDelete) {
     int maxValue = 8;
-    Die* die = buildDie(maxValue);
+    Die* die = buildDiePointer(maxValue);
     ck_assert_ptr_nonnull(die);
     ck_assert_int_eq(die->maxValue, maxValue);
     ck_assert_int_eq(die->currentValue, 1);
@@ -16,11 +16,11 @@ START_TEST(rollDieSpread) {
     int maxValue = 6;
     int buckets[] = {0, 0, 0, 0, 0, 0};
     int totalRuns = 100000;
-    Die* die = buildDie(maxValue);
+    Die die = buildDie(maxValue);
     for (int run = 0; run < totalRuns; run++) {
-        rollDie(die);
-        ck_assert(die->currentValue >= 1 && die->currentValue <= die->maxValue);
-        buckets[die->currentValue - 1] += 1;
+        rollDie(&die);
+        ck_assert(die.currentValue >= 1 && die.currentValue <= die.maxValue);
+        buckets[die.currentValue - 1] += 1;
     }
     int epsilon = 500;
     int expected = totalRuns / maxValue;
@@ -28,7 +28,6 @@ START_TEST(rollDieSpread) {
         ck_assert((buckets[index] <= (expected + epsilon)) &&
                   (buckets[index] >= (expected - epsilon)));
     }
-    deleteDie(die);
 }
 END_TEST
 

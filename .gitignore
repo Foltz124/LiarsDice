@@ -1,7 +1,9 @@
 *.cmake
 CMakeCache.txt
 Makefile
+tags
 
+.cache/
 build/
 CMakeFiles/
 

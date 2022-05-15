@@ -120,12 +120,12 @@ DieListIterator previousDieIt(DieListIterator it) {
     return (DieListIterator*) node;
 }
 
-Die getDie(DieListIterator it) {
+Die* getDie(DieListIterator it) {
     Die die;
     DieNode* node = castIteratorToNode(it);
     if(node) {
-        die = node->value;
+        return &node->value;
     }
-    return die;
+    return NULL;
 }
 

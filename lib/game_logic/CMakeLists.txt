@@ -7,4 +7,5 @@ set(CMAKE_C_STANDARD 11)
 add_library(${PROJECT_NAME} INTERFACE)
 
 add_subdirectory(poker_utils)
-target_link_libraries(${PROJECT_NAME} INTERFACE die poker_utils)
+add_subdirectory(hand)
+target_link_libraries(${PROJECT_NAME} INTERFACE poker_utils hand)
