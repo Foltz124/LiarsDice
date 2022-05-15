@@ -9,8 +9,7 @@ START_TEST(playerCreateDelete) {
     ck_assert_ptr_nonnull(player);
     ck_assert_str_eq(player->name, name);
     ck_assert_int_eq(player->tokens, tokens);
-    deletePlayer(&player);
-    ck_assert_ptr_null(player);
+    deletePlayer(player);
 }
 END_TEST
 

@@ -1,13 +1,19 @@
 #pragma once
-#include "PlayerNode.h"
+#include <stdbool.h>
+#include <stdlib.h>
 
-typedef struct PlayerList {
-    PlayerNode* head;
-    PlayerNode* tail;
-    int size;
-} PlayerList;
+#include "Player.h"
 
-int push(PlayerList* list, Player player);
-PlayerList* buildPlayerList();
-void deletePlayerList(PlayerList** list);
+typedef void* PlayerList;
+typedef void* PlayerListIterator;
+
+PlayerList buildPlayerList();
+void deletePlayerList(PlayerList list);
+void pushPlayer(PlayerList list, Player player);
+size_t sizePlayerList(PlayerList list);
+
+PlayerListIterator beginPlayerIt(PlayerList list);
+bool hasNextPlayerIt(PlayerListIterator it);
+PlayerListIterator nextPlayerIt(PlayerListIterator it);
+Player getPlayer(PlayerListIterator it);
 

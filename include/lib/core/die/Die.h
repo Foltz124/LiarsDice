@@ -1,11 +1,12 @@
 #pragma once
+#include <stdint.h>
 
 typedef struct Die {
-    unsigned int maxValue;
-    unsigned int currentValue;
+    uint8_t maxValue;
+    uint8_t currentValue;
 } Die;
 
-Die* buildDie(unsigned int maxValue);
-void deleteDie(Die** die);
+Die* buildDie(uint8_t maxValue);
+void deleteDie(Die* die);
 void rollDie(Die* die);
 

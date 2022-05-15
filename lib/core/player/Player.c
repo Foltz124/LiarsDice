@@ -3,7 +3,7 @@
 
 #include "Player.h"
 
-Player* buildPlayer(char* name, unsigned int tokens) {
+Player* buildPlayer(char* name, uint8_t tokens) {
     Player* player = malloc(sizeof(Player));
     if(player) {
         player->name = name;
@@ -12,7 +12,7 @@ Player* buildPlayer(char* name, unsigned int tokens) {
     return player;
 }
 
-void deletePlayer(Player** player) {
-    free(*player);
-    *player = NULL;
+void deletePlayer(Player* player) {
+    free(player);
 }
+
